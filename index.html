@@ -24,92 +24,53 @@
     canvas.width  = window.innerWidth-10;
     canvas.height = window.innerHeight-10;
     const ctx = canvas.getContext('2d');
-    ctx.font="20px Arial"
-    ctx.textBaseline = 'right';
 
-    const _a = 2 * Math.PI / 6;//一边度数
-    const _r = 60;//半径
-    const _b = 2*_r*Math.sin(_a/2);//边长
-    const _d = 2*_r*Math.sin(_a);//对边距
-    const _o = _r*Math.cos(_a);
-    const _s = p => _r * Math.sin(_a * p);
-    const _c = p => _r * (1 + Math.cos(_a * p));
-    const px = -180, py = -60;//up坐标
-    const ix = 100, iy = 300;//整体坐标
-
-    function draw(x1, y1, x2, y2) {
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-    }
-
-    function paint(x, y, fcolor, scolor, f, tag) {
-        x = x + ix;
-        y = y + iy;
-        ctx.beginPath();
-        ctx.fillStyle=fcolor;
-        ctx.lineWidth = 6;
-        ctx.strokeStyle=scolor;
-        ctx.moveTo(x + _s(0), y + _c(0));
-        for(let i=1;i<6;i++){
-            ctx.lineTo(x + _s(i), y + _c(i));
-        }
-        ctx.closePath();
-        if(f){
-            ctx.fill();
-            ctx.stroke();
-        }else{
-            ctx.stroke();
-        }
-    }
-
-    function textt(x, y, tag) {
-        x = x + ix;
-        y = y + iy;
-        ctx.fillStyle="#333";
-        ctx.lineWidth = 2;
-        ctx.fillText(tag, x, y);
+    window.onload = function() {
+        document.addEventListener('mousedown', function(event) {
+            console.log(event)
+            let x=event.clientX, y=event.clientY;
+            if(event.which==1){
+                ctx.fillStyle="#f33";
+                ctx.font="8px Arial"
+                ctx.fillText(x+','+y, x, y);
+            }
+        }, false);
     }
 
     function line(x1, y1, x2, y2, color) {
-        x1 = x1 + ix;
-        x2 = x2 + ix;
-        y1 = y1 + iy;
-        y2 = y2 + iy;
         ctx.beginPath();
         ctx.strokeStyle=color;
-        for(let i=0;i<6;i++){
-            ctx.moveTo(x1 + _s(i), y1 + _c(i));
-            ctx.lineTo(x2 + _s(i), y2 + _c(i));
-        }
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.closePath();
         ctx.stroke();
     }
 
-    function fordo(f){
-        for(let x=1;x<9;x++){
-            let yy = -_r-_o;
-            f(x,yy)//row1
-            f(x-0.5,0)
-            f(x,-yy)
-            f(x-0.5,2*-yy)
+    for(let x=0;x<60;x++){
+        let d = 20*x;
+        if(x%5==0){
+            ctx.textBaseline = 'right';
+            ctx.fillStyle="#333";
+            ctx.font="8px Arial"
+            ctx.fillText(d, 0, d);
+            line(0,d,canvas.width,d,'#ddd')
+        }else{
+            line(0,d,canvas.width,d,'#eee')
+        }
+    }
+    for(let y=0;y<80;y++){
+        let d = 20*y;
+        if(y%5==0){
+            ctx.textBaseline = 'top';
+            ctx.fillStyle="#333";
+            ctx.font="8px Arial"
+            ctx.fillText(d, d, 0);
+            line(d,0,d,canvas.height,'#ddd')
+        }else{
+            line(d,0,d,canvas.height,'#eee')
         }
     }
 
-    // draw(100 + _s(2), 200 + _c(2),    100 + _s(1),      200 + _c(1));
-    // draw(100 + _s(2), 200 + _c(2),    100 + _s(3),      200 + _c(3));
-    // draw(100 + _s(2), 200 + _c(2),    100 + _d + _s(3), 200 + _c(3));
-
-    fordo((i,yy)=>{paint(i*_d, yy, "#FFF700", "#ccc", true, "down"+i);})
-    fordo((i,yy)=>{textt(i*_d, yy, "down"+i);})
-    fordo((i,yy)=>{line(i*_d, yy, (2+i)*_d+px, py+yy, "#ccc");})
-    fordo((i,yy)=>{paint((i+2)*_d+px, yy+py, "#FFD700", "#8B658B", true, "up"+i);})
-    fordo((i,yy)=>{textt((i+2)*_d+px, yy+py, "up"+i);})
-
-    paint((4+2)*_d+px, 1*-(-_r-_o)+py, "#e00", "#8B658B", true, "x");
-    // paint((4-0.5+2)*_d+px, 2*-(-_r-_o)+py, "#e00", "#8B658B", true, "x");
-    // paint((5-0.5+2)*_d+px, 2*-(-_r-_o)+py, "#e00", "#8B658B", true, "x");
 
     //1.边缘xy flash up1-down1 down2的定位
     //2.down21-down22 down12-down22 边缘xy mem flash

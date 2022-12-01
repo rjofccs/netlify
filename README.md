@@ -1,1 +1,1 @@
-https://dualhexago.netlify.app/
+https://rjofccs.github.io/netlify/
