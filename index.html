@@ -17,24 +17,14 @@
     </style>
 </head>    
 <body>
-<canvas id="canvas"/>
+<!-- <canvas id="canvas"/> -->
+
+
 <script>
     const canvas = document.getElementById('canvas');
     canvas.width  = window.innerWidth-10;
     canvas.height = window.innerHeight-10;
     const ctx = canvas.getContext('2d');
-
-    window.onload = function() {
-        document.addEventListener('mousedown', function(event) {
-            console.log(event)
-            let x=event.clientX, y=event.clientY;
-            if(event.which==1){
-                ctx.fillStyle="#f33";
-                ctx.font="8px Arial"
-                ctx.fillText(x+','+y, x, y);
-            }
-        }, false);
-    }
 
     function line(x1, y1, x2, y2, color) {
         ctx.beginPath();
@@ -71,11 +61,48 @@
     }
 
 
+    for(let x=10;x<80;x++){
+        let d = 10*x;
+        line(0,d,20,d,'#c0c')
+    }
+    for(let y=10;y<200;y++){
+        let d = 10*y;
+        line(d,0,d,20,'#0cc')
+    }
+    for(let x=2;x<80;x++){
+        let yd = 10*x;
+        for(let y=2;y<200;y++){
+            let xd = 10*y;
+            line(xd,yd,xd-1,yd+1,'#e00')
+        }
+    }
+
+    for(let x=40;x<45;x++){
+        let yd = 10*x;
+        for(let y=80;y<85;y++){
+            let xd = 10*y;
+            line(xd,yd,xd-1,yd+1,'#00f')
+        }
+    }
+    for(let x=30;x<35;x++){
+        let yd = 10*x;
+        for(let y=85;y<90;y++){
+            let xd = 10*y;
+            line(xd,yd,xd-1,yd+1,'#00f')
+        }
+    }
+
+    // line(0,610,610,610,'#0cc')
+    // line(0,620,600,620,'#0cc')
+    // line(0,630,600,630,'#0cc')
+    // line(0,640,610,640,'#0cc')
+    
+
+
     //1.边缘xy flash up1-down1 down2的定位
     //2.down21-down22 down12-down22 边缘xy mem flash
     //upL1 （weak）中线右3 （sstrong）连接 （sweak）标记
     //downL2 3:2direction
-
 </script>
 </body>
 </html>
