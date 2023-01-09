@@ -1,1 +1,0 @@
-https://rjofccs.github.io/netlify/
